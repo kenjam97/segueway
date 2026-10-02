@@ -3,7 +3,10 @@ import "server-only";
 export function spotifyConfig() {
   const clientId = process.env.SPOTIFY_CLIENT_ID;
   const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-  const redirectUri = process.env.SPOTIFY_REDIRECT_URI;
+  // Render supplies the assigned public URL before starting the service.
+  // Explicit configuration still takes precedence for local/custom domains.
+  const renderOrigin = process.env.RENDER === "true" ? process.env.RENDER_EXTERNAL_URL : undefined;
+  const redirectUri = process.env.SPOTIFY_REDIRECT_URI || (renderOrigin ? `${renderOrigin.replace(/\/$/, "")}/api/auth/callback` : undefined);
   if (!clientId || !clientSecret || !redirectUri) throw new Error("Spotify configuration is missing.");
   const url = new URL(redirectUri);
   const loopback = ["127.0.0.1", "[::1]"].includes(url.hostname);

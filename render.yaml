@@ -20,5 +20,4 @@ services:
         sync: false
       - key: SPOTIFY_CLIENT_SECRET
         sync: false
-      - key: SPOTIFY_REDIRECT_URI
-        sync: false
+      # Callback defaults to RENDER_EXTERNAL_URL + /api/auth/callback.
